@@ -17,19 +17,51 @@ function TJSlogPass(test, runtime) {
 
 function TJSlogFail(test, assertions) {
    let msg = `%c${test}❌`;
+   console.log(msg, 'color:red; font-size:20px; font-weight:bold;');
    assertions.forEach( assertion => {
-      msg += `\n%cAssertion failed:\nType: ${assertion.type}\n${assertion.string}`;
+      msg = `%cAssertion failed:\nType: ${assertion.type}\n${assertion.string}\n`;
+      if (assertion.isStringCompare) {
+         console.log(
+            msg,
+            'color:red; font-size:15px;',
+            'color:lime; font-size:15px; font-style:italic; font-weight:bold;',
+            'color:red; font-size:15px; font-style:normal;',
+            'color:lime; font-size:15px; font-style:italic;font-weight:bold;',
+            'color:red; font-size:15px; font-style:normal;'
+         );
+      } else {
+         console.log(
+            msg,
+            'color:red; font-size:15px;'
+         )
+      }
    });
-   console.log(msg, 'color:red; font-size:20px; font-weight:bold;', 'color:red; font-size:15px;');
 }
 
 let TJSassertions = [];
 
 function assertEquals(a, b) {
+   let msg;
+   let isString = typeof(a) == 'string' && typeof(b) == 'string';
+   if (isString) {
+      const max = Math.max(a.length, b.length);
+      for (let i = 0; i < max; i++) {
+         if (a[i] != b[i]) {
+            msg = `
+            \nA: ${a.substring(0, i)}%c${a[i]}%c${a.substring(i+1)}\n\nB: ${b.substring(0, i)}%c${b[i]}%c${b.substring(i+1)}`;
+         }
+      }
+   } else if (a == b) {
+      msg = `\nType A: ${typeof(a)}\nType B: ${typeof(b)}\n\nA: ${a}\n\nB: ${b}`
+   } else {
+      msg = `\nA: ${a}\n\nB: ${b}`;
+   }
+
    return TJSassertions.push({
       res: a === b,
       type: 'equals',
-      string: `A = ${a}, B = ${b}`
+      string: msg,
+      isStringCompare: isString
    });
 }
 
