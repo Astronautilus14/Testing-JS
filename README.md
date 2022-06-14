@@ -14,7 +14,7 @@ function plus(a, b) {
 }
 ```
 
-You can write a test case for it like this,as long as it ends on ```Test```
+You can write a test case for it like this, as long as it ends on ``Test``
 ```js
 function plusTest() {
    assertEquals(plus(1, 3), 4);
@@ -29,7 +29,7 @@ plusTest✅ Runtime≈0.400000ms
 ## Functions
 
 ### Before each
-This will called before each testcase
+This will called before each test case
 ```js
 function beforeEach() {
   array = [];
@@ -38,10 +38,10 @@ function beforeEach() {
 ```
 
 ### After each
-This will called before each testcase
+This will called after each test case
 ```js
-function beforeEach() {
-  consol.log('I'm done!');
+function afterEach() {
+  console.log('Im done!');
 }
 ```
 
