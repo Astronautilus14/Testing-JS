@@ -2,7 +2,7 @@
 A testing library, designed for front-end javascript.
 
 ## Setup
-Add the following tagg to the header of your HTML
+Add the following tag to the header of your HTML
 ```html
 <script type="text/javascript" src="http://nautdevroome.nl/testing.js"></script>
 ```
