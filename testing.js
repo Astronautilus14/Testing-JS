@@ -51,6 +51,7 @@ function assertEquals(a, b) {
          if (a[i] != b[i]) {
             msg = `
             \nA: ${a.substring(0, i)}%c${a[i]}%c${a.substring(i+1)}\n\nB: ${b.substring(0, i)}%c${b[i]}%c${b.substring(i+1)}`;
+            break;
          }
       }
    } else if (a == b) {
@@ -85,10 +86,31 @@ function assertEquals(a, b) {
 }
 
 function assertNotEquals(a, b) {
+   let objMsg = false;
+   let msg = ''
+
+   if (typeof(a) == 'object') {
+      msg += `\nA: Object, instance of ${a.constructor.name}\n`;
+      objMsg = true;
+   } else {
+      msg += `\nA: ${a}\n`
+   }
+
+   if (typeof(b) == 'object') {
+      msg += `\nB: Object, instance of ${a.constructor.name}`;
+      objMsg = true;
+   } else {
+      msg += `\nB: ${b}`;
+   }
+
+   if (objMsg) {
+      msg += '\n\nYou can\'t compare objects! Use your own equals function that compares some properties of you objects and use that in an assert true in your test case.'
+   }
+
    return TJSassertions.push({
       res: a !== b,
       type: 'not equals',
-      msg: `A = ${a}, B = ${b}`
+      msg: msg
    });
 }
 
